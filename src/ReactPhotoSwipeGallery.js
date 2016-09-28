@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import PhotoSwipe from './PhotoSwipe';
+import PhotoSwipe from './ReactPhotoSwipe';
 import { pick } from 'lodash';
 import events from './events';
 
-export default class PhotoSwipeGallery extends Component {
+export default class ReactPhotoSwipeGallery extends Component {
     static propTypes = {
         items: PropTypes.array.isRequired,
         options: PropTypes.object,

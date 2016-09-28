@@ -1,6 +1,6 @@
 'use strict';
 
 module.exports = {
-    PhotoSwipeGAllery: require('./lib/PhotoSwipeGAllery'),
-    PhotoSwipe: require('./lib/PhotoSwipe')
+    ReactPhotoSwipeGAllery: require('./lib/ReactPhotoSwipeGAllery'),
+    ReactPhotoSwipe: require('./lib/ReactPhotoSwipe')
 };
