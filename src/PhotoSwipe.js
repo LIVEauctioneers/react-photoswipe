@@ -1,37 +1,45 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import Photoswipe from 'photoswipe';
 import PhotoswipeUIDefault from 'photoswipe/dist/photoswipe-ui-default';
-import classnames from 'classnames';
 import events from './events';
 
-class PhotoSwipe extends React.Component {
+export default class PhotoSwipe extends Component {
     static propTypes = {
-        isOpen: React.PropTypes.bool.isRequired,
-        items: React.PropTypes.array.isRequired,
-        options: React.PropTypes.object,
-        onClose: React.PropTypes.func,
-        id: React.PropTypes.string,
-        className: React.PropTypes.string
+        isOpen: PropTypes.bool.isRequired,
+        items: PropTypes.array.isRequired,
+        options: PropTypes.object,
+        onClose: PropTypes.func,
+        id: PropTypes.string,
+        className: PropTypes.string
     };
+
     static defaultProps = {
         items: [],
         options: {}
     };
+    
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+            isOpen: false
+        };
 
-    state = {
-        isOpen: false
-    };
+        this.closePhotoSwipe = this.closePhotoSwipe.bind(this);
+        this.openPhotoSwipe = this.openPhotoSwipe.bind(this);
+        this.updateItems = this.updateItems.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+    }
 
-    componentDidMount = () => {
-        let {isOpen} = this.state;
+    componentDidMount() {
+        const { isOpen } = this.state;
         if (isOpen) {
             this.openPhotoSwipe(this.props);
         }
-    };
+    }
 
-    componentWillReceiveProps = (nextProps) => {
-        let {isOpen} = this.state;
+    componentWillReceiveProps(nextProps) {
+        const { isOpen } = this.state;
         if (nextProps.isOpen) {
             if (!isOpen) {
                 this.openPhotoSwipe(nextProps);
@@ -41,20 +49,20 @@ class PhotoSwipe extends React.Component {
         } else if (isOpen) {
             this.closePhotoSwipe();
         }
-    };
+    }
 
-    componentWillUnmount = () => {
+    componentWillUnmount() {
         this.closePhotoSwipe();
-    };
+    }
 
-    openPhotoSwipe = (props) => {
-        let {items, options, ...other} = props;
+    openPhotoSwipe(props) {
+        const { items, options, ...other } = props;
         let pswpElement = ReactDOM.findDOMNode(this);
         this.photoSwipe = new Photoswipe(pswpElement, PhotoswipeUIDefault, items, options);
         events.forEach(event => {
-            let callback = props[event];
+            const callback = props[event];
             if (callback || event === 'destroy') {
-                let self = this;
+                const self = this;
                 this.photoSwipe.listen(event, function () {
                     if (callback) {
                         let args = (arguments.length === 1 ? [arguments[0]] : Array.apply(null, arguments));
@@ -74,7 +82,7 @@ class PhotoSwipe extends React.Component {
         });
     };
 
-    updateItems = (items = []) => {
+    updateItems(items = []) {
         this.photoSwipe.items.length = 0;
         items.forEach((item) => {
             this.photoSwipe.items.push(item);
@@ -83,15 +91,15 @@ class PhotoSwipe extends React.Component {
         this.photoSwipe.updateSize(true);
     };
 
-    closePhotoSwipe = () => {
+    closePhotoSwipe() {
         if (!this.photoSwipe) {
             return;
         }
         this.photoSwipe.close();
     };
 
-    handleClose = () => {
-        let {onClose} = this.props;
+    handleClose() {
+        const { onClose } = this.props;
         this.setState({
             isOpen: false
         }, () => {
@@ -102,11 +110,11 @@ class PhotoSwipe extends React.Component {
     };
 
     render() {
-        let {id, className} = this.props;
-        className = classnames(['pswp', className]).trim();
+        const {id, className} = this.props;
+        const classes = [...className.split(' '), 'pswp'].join(' ');
         return (
             <div id={id}
-                className={className}
+                className={classes}
                 tabIndex="-1"
                 role="dialog"
                 aria-hidden="true">
@@ -154,4 +162,3 @@ class PhotoSwipe extends React.Component {
     }
 }
 
-export default PhotoSwipe;

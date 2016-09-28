@@ -1,17 +1,16 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import PhotoSwipe from './PhotoSwipe';
 import { pick } from 'lodash';
 import events from './events';
-import classnames from 'classnames';
 
-class PhotoSwipeGallery extends React.Component {
+export default class PhotoSwipeGallery extends Component {
     static propTypes = {
-        items: React.PropTypes.array.isRequired,
-        options: React.PropTypes.object,
-        thumbnailContent: React.PropTypes.func,
-        id: React.PropTypes.string,
-        className: React.PropTypes.string
+        items: PropTypes.array.isRequired,
+        options: PropTypes.object,
+        thumbnailContent: PropTypes.func,
+        id: PropTypes.string,
+        className: PropTypes.string
     };
 
     static defaultProps = {
@@ -23,15 +22,21 @@ class PhotoSwipeGallery extends React.Component {
         }
     };
 
-    state = {
-        isOpen: false,
-        options: this.props.options
-    };
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+            isOpen: false,
+            options: props.options
+        };
 
-    showPhotoSwipe = (itemIndex) => {
+        this.showPhotoSwipe = this.showPhotoSwipe.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+    }
+
+    showPhotoSwipe(itemIndex) {
         return (e) => {
             e.preventDefault();
-            let {options} = this.state;
+            let { options } = this.state;
             options.index = itemIndex;
             options.getThumbBoundsFn = options.getThumbBoundsFn || ((index) => {
                 let thumbnail = ReactDOM.findDOMNode(this.refs['thumbnail' + index]);
@@ -47,26 +52,26 @@ class PhotoSwipeGallery extends React.Component {
         };
     };
 
-    handleClose = () => {
+    handleClose() {
         this.setState({
             isOpen: false
         });
     };
 
     render() {
-        let {id, className, items, thumbnailContent, ...other} = this.props;
-        className = classnames(['pswp-gallery', className]).trim();
-        let eventProps = pick(other, events);
-        let {isOpen, options} = this.state;
+        const { id, className, items, thumbnailContent, ...other } = this.props;
+        const classes = [...className.split(' '), 'pswp-gallery'].join(' ');
+        const eventProps = pick(other, events);
+        const { isOpen, options } = this.state;
         return (
-            <div id={id} className={className}>
+            <div id={id} className={classes}>
                 <div className="pswp-thumbnails">
                     {items.map((item, index) => {
                         return (
                             <div key={index} ref={'thumbnail' + index}
                                 className="pswp-thumbnail"
-                                onClick={this.showPhotoSwipe(index) }>
-                                {thumbnailContent(item) }
+                                onClick={ this.showPhotoSwipe(index) }>
+                                { thumbnailContent(item) }
                             </div>
                         );
                     }) }
@@ -80,5 +85,3 @@ class PhotoSwipeGallery extends React.Component {
         );
     }
 }
-
-export default PhotoSwipeGallery;
