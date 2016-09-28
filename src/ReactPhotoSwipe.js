@@ -110,7 +110,7 @@ export default class ReactPhotoSwipe extends Component {
     };
 
     render() {
-        const {id, className} = this.props;
+        const {id, className = ''} = this.props;
         const classes = [...className.split(' '), 'pswp'].join(' ');
         return (
             <div id={id}

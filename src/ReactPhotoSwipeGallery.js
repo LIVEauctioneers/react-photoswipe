@@ -59,7 +59,7 @@ export default class ReactPhotoSwipeGallery extends Component {
     };
 
     render() {
-        const { id, className, items, thumbnailContent, ...other } = this.props;
+        const { id, className = '', items, thumbnailContent, ...other } = this.props;
         const classes = [...className.split(' '), 'pswp-gallery'].join(' ');
         const eventProps = pick(other, events);
         const { isOpen, options } = this.state;
