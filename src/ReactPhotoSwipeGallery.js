@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import PhotoSwipe from './ReactPhotoSwipe';
-import { pick } from 'lodash';
+import pick from 'lodash.pick';
 import events from './events';
 
 export default class ReactPhotoSwipeGallery extends Component {
