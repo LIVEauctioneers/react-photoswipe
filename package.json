@@ -1,5 +1,5 @@
 {
-  "name": "react-photoswipe",
+  "name": "@liveauctioneers/react-photoswipe",
   "version": "2.0.0",
   "description": "PhotoSwipe, PhotoSwipeGallery component for ReactJS based on PhotoSwipe.",
   "main": "index.js",
