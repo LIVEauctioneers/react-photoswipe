@@ -1,7 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Photoswipe from 'photoswipe';
 import PhotoswipeUIDefault from 'photoswipe/dist/photoswipe-ui-default';
+import PropTypes from 'prop-types';
 import events from './events';
 
 export default class ReactPhotoSwipe extends Component {
@@ -18,7 +19,7 @@ export default class ReactPhotoSwipe extends Component {
         items: [],
         options: {}
     };
-    
+
     constructor(props, context) {
         super(props, context);
         this.state = {
